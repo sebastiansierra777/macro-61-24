@@ -25,7 +25,7 @@ python src/gdp_growth_61_24.py
 ## 📁 Project Structure
 ```
 macro-61-24/
-├── data/       # Raw and processed datasets
+├── data/       # Raw datasets
 ├── src/        # Analysis scripts
 └── figures/    # Generated visualizations
 ```
