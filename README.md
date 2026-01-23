@@ -20,6 +20,7 @@ pip install -r requirements.txt
 
 # Run the analysis
 python src/latam_gdp_growth_61_24.py
+python src/asia_gdp_growth_61_24.py
 ```
 
 ## 📁 Project Structure
