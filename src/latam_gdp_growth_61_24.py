@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from pathlib import Path
@@ -16,18 +15,18 @@ FIGURES_DIR.mkdir(exist_ok=True)
 data_file = DATA_DIR / 'P_Data_Extract_From_World_Development_Indicators.xlsx'
 df = pd.read_excel(data_file)
 
-# Define the Latin American countries you want
+# Extract selected Latin American countries
 latam_countries = [
     'Argentina', 'Brazil', 'Bolivia', 'Chile', 'Colombia',
     'Cuba', 'Dominican Republic', 'Ecuador', 'Mexico',
     'Peru', 'Panama', 'Paraguay', 'Uruguay', 'Venezuela, RB'
 ]
 
-# Filter for your countries
+# Filter countries
 df_latam = df[df['Country Name'].isin(latam_countries)].copy()
 
-# Get year columns (1961-2024 only)
-year_cols = [col for col in df.columns if (col.startswith('19') or col.startswith('20')) and not col.startswith('1960')]
+# Filter columns
+year_cols = [f'{year} [YR{year}]' for year in range(1961, 2025)]
 
 # Create a clean dataframe with countries as rows and years as columns
 data_matrix = df_latam.set_index('Country Name')[year_cols]
@@ -38,9 +37,10 @@ data_matrix.columns = [col.split()[0] for col in data_matrix.columns]
 # Convert to numeric (this automatically handles '..' as NaN)
 data_matrix = data_matrix.apply(pd.to_numeric, errors='coerce')
 
-# Calculate cumulative growth using compound formula
-# (1 + r1/100) * (1 + r2/100) * ... - 1, then convert back to percentage
-data_matrix['Total'] = ((data_matrix / 100 + 1).prod(axis=1, skipna=True) - 1) * 100
+# CALCULATE CUMULATIVE GROWTH
+# Select only the original yearly growth-rate columns
+rates_only = data_matrix.copy()
+data_matrix['CUM.'] = ((rates_only / 100 + 1).prod(axis=1, skipna=True) - 1) * 100
 
 # Sort countries alphabetically
 data_matrix = data_matrix.sort_index()
@@ -63,11 +63,14 @@ sns.heatmap(
     ax=ax
 )
 
-# Show country names on both left and right
+# Show years both top and bottom
+ax.tick_params(top=True, bottom=True, labeltop=True, labelbottom=True)
+
+# Show country names both left and right
 ax.yaxis.tick_right()
 ax.tick_params(left=True, right=True, labelleft=True, labelright=True)
 
-plt.title('GDP Growth Rates: Latin America (1961-2024)', fontsize=21, fontweight='bold', pad=20)
+plt.title('GDP GROWTH RATES: LATIN AMERICA (1961-2024)', fontsize=28, fontweight='bold', pad=10)
 plt.xlabel('')
 plt.ylabel('')
 plt.xticks(rotation=90, fontweight='bold')
