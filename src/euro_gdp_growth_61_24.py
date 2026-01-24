@@ -15,20 +15,21 @@ FIGURES_DIR.mkdir(exist_ok=True)
 data_file = DATA_DIR / 'P_Data_Extract_From_World_Development_Indicators.xlsx'
 df = pd.read_excel(data_file)
 
-# List of selected Asian countries
-asian_countries = [
-    'Japan', 'Korea, Rep.', 'China', 'Hong Kong SAR, China', 'India', 'Singapore',
-    'Malaysia', 'Thailand', 'Indonesia', 'Philippines', 'Iran, Islamic Rep.', 'Pakistan', 'Bangladesh'
+# List of selected Euro/Western countries
+euro_countries = [
+    'United States', 'Spain', 'France', 'United Kingdom', 'Ireland', 'Netherlands', 'Germany',
+    'Switzerland', 'Italy', 'Denmark', 'Norway', 'Sweden', 'Turkiye', 'Australia',
+    'New Zealand', 'Canada', 'Israel'
 ]
 
 # Filter countries
-df_asia = df[df['Country Name'].isin(asian_countries)].copy()
+df_euro = df[df['Country Name'].isin(euro_countries)].copy()
 
 # Filter columns
 year_cols = [f'{year} [YR{year}]' for  year in range(1961, 2025)]
 
 # Create a clean dataframe with countries as rows and years as columns
-data_matrix = df_asia.set_index('Country Name')[year_cols]
+data_matrix = df_euro.set_index('Country Name')[year_cols]
 
 # Clean up year column names (remove World Bank format)
 data_matrix.columns = [col.split()[0] for col in data_matrix.columns]
@@ -43,16 +44,6 @@ data_matrix['CUM.'] = ((rates_only / 100 + 1).prod(axis=1, skipna=True) - 1) * 1
 # Sort countries alphabetically
 data_matrix = data_matrix.sort_index()
 
-# --- Friendly display names for heatmap ---
-name_map = {
-    "Hong Kong SAR, China": "Hong Kong",
-    "Iran, Islamic Rep.": "Iran",
-    "Korea, Rep.": "South Korea"
-}
-
-# Rename index for display only
-data_matrix.rename(index=name_map, inplace=True)
-
 # HEATMAP
 fig, ax = plt.subplots(figsize=(30, 7))
 sns.heatmap(
@@ -63,7 +54,7 @@ sns.heatmap(
     center=0,
     annot=True,
     fmt='.1f',
-    annot_kws={'size': 7},
+    annot_kws={'size': 8},
     cbar=False,
     linewidths=0.5,
     linecolor='lightgray',
@@ -79,7 +70,7 @@ ax.yaxis.tick_right()
 ax.tick_params(left=True, right=True, labelleft=True, labelright=True)
 
 # TITLES AND LABELS
-plt.title('GDP GROWTH RATES: ASIA (1961 - 2024)', fontsize=28, fontweight='bold', pad=10)
+plt.title('GDP GROWTH RATES: EUROPE AND ANGLOSPHERE (1961 - 2024)', fontsize=28, fontweight='bold', pad=10)
 plt.xlabel('')
 plt.ylabel('')
 plt.xticks(rotation=90, fontweight='bold')
@@ -91,8 +82,7 @@ fig.text(0.98, -0.01, 'Source: World Bank, HeatMap by Sebastián S.G.',
          ha='right', va='bottom', fontsize=11, style='italic', color='gray')
 
 # Save the figure
-output_file = FIGURES_DIR / 'asia_gdp_growth_heatmap.png'
+output_file = FIGURES_DIR / 'euro_gdp_growth_heatmap.png'
 plt.savefig(output_file, dpi=300, bbox_inches='tight')
 print(f"Figure saved to: {output_file}")
 plt.show()
-
