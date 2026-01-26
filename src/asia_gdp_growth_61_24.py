@@ -18,7 +18,8 @@ df = pd.read_excel(data_file)
 # List of selected Asian countries
 asian_countries = [
     'Japan', 'Korea, Rep.', 'China', 'Hong Kong SAR, China', 'India', 'Singapore',
-    'Malaysia', 'Thailand', 'Indonesia', 'Philippines', 'Iran, Islamic Rep.', 'Pakistan', 'Bangladesh'
+    'Malaysia', 'Thailand', 'Indonesia', 'Philippines', 'Iran, Islamic Rep.', 'Pakistan',
+    'Bangladesh', 'Saudi Arabia', 'Oman', 'Iraq', 'Syrian Arab Republic', 'United Arab Emirates'
 ]
 
 # Filter countries
@@ -47,7 +48,9 @@ data_matrix = data_matrix.sort_index()
 name_map = {
     "Hong Kong SAR, China": "Hong Kong",
     "Iran, Islamic Rep.": "Iran",
-    "Korea, Rep.": "South Korea"
+    "Korea, Rep.": "South Korea",
+    "Syrian Arab Republic": "Syria",
+    "United Arab Emirates": "UAE"
 }
 
 # Rename index for display only

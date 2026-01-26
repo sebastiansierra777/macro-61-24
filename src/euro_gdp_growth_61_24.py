@@ -19,7 +19,7 @@ df = pd.read_excel(data_file)
 euro_countries = [
     'United States', 'Spain', 'France', 'United Kingdom', 'Ireland', 'Netherlands', 'Germany',
     'Switzerland', 'Italy', 'Denmark', 'Norway', 'Sweden', 'Turkiye', 'Australia',
-    'New Zealand', 'Canada', 'Israel'
+    'New Zealand', 'Canada', 'Israel', 'Greece',
 ]
 
 # Filter countries
