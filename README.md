@@ -1,5 +1,5 @@
 # Macro Stats 1961–2024
-**Analyzing GDP and inflation trends using World Bank data**
+**Analyzing GDP and GDP Per Capita trends using World Bank data**
 
 ---
 
@@ -40,7 +40,7 @@ macro-61-24/
 
 ## 📊 About
 
-This project examines long-term macroeconomic patterns spanning six decades, focusing on GDP growth rates and inflation dynamics across different countries and regions.
+This project examines long-term macroeconomic patterns spanning six decades, focusing on GDP growth rates and GDP Per Capita values across different countries and regions.
 
 ## 👤 Author
 
