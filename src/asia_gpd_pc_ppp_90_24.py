@@ -40,6 +40,18 @@ data_matrix = data_matrix.apply(pd.to_numeric, errors='coerce')
 # Sort countries alphabetically
 data_matrix = data_matrix.sort_index()
 
+# --- Friendly display names for heatmap ---
+name_map = {
+    "Hong Kong SAR, China": "Hong Kong",
+    "Iran, Islamic Rep.": "Iran",
+    "Korea, Rep.": "South Korea",
+    "Syrian Arab Republic": "Syria",
+    "United Arab Emirates": "UAE"
+}
+
+# Rename index for display only
+data_matrix.rename(index=name_map, inplace=True)
+
 # HEATMAP
 fig, ax = plt.subplots(figsize=(21, 7))
 sns.heatmap(
